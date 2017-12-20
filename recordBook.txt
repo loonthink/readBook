@@ -1,0 +1,285 @@
+object 
+	①创建对象的两种方式
+		var obj = new Object();
+			obj.name = 'aa';
+			或者
+			直接使用 ②对象字面量 包裹
+		var obj = {
+			name:'aa',
+			1:'aaadd'
+		}
+		③key可以不使用 引号包裹 但是不使用引号包裹的话 遇到非法字符 就会报错
+		如：
+		var obj = {
+			3333name:999
+		}  定义直接导致报错   加上 引号 就好了 访问的时候 使用 中括号[] 来访问
+		
+		④对于 含有特殊字符的key 最好使用 中括号包裹的方式来求值
+
+Array
+	①创建的方式
+		var A = new Array(3)  //创建指明的是数量
+		var B = new Array('aaa')  //创建指明的是内容
+		var C = ['a','b']
+		
+	② var color = ['a','b','c'];
+	
+	  可以利用 数组的长度 length 来删除/添加 数组的末尾项
+		color.length=2 ==>color=['a','b']; // 删除
+		color[color.length] = 'fff' ==>color=['a','b','c','fff']  //添加
+	  利用下标来 直接修改数组的值
+		color[1] = 'fff'  ==> color=['a','fff','c']
+	
+	③ 判断是否是数组 instanceof （但是存在单一环境局限性，多个环境的话 会互相应影响，导致不准确）
+	  可以使用 Array.isArray(value) 来做判断
+	 
+	④ 数组的转换
+		每个对象都有这个三个方法,不影响原数组的值，会输出一个新的值
+			
+		一 toString() 将数组转换为都还好链接的字符串
+		二 valueOf() 将数组值 原样输出
+		三 toLocaleString() 将数组显示为当地数字 就 时间为例子 美国的/中国的日期格式显示对应 逗号链接的字符串
+		四 join('') 将数组的每一项通过传递的参数进行连接，输出一个对应链接符的字符串
+			eg: var C = ['a','b'] var mm = C.join('??') ==> mm = 'a??b'
+	⑤ 栈方法 (LIFO) ==> (Last In First Out)
+		push() 像数组的末尾添加一个值，并修改数组的length,原数组增加一个值。
+			返回的是数组的长度 var C = ['a','b']; var m = C.push('c'); m=3;  重点
+		pop() 删除数组末尾的最后一个值,原数组删除一个值
+			返回值是删除项 	   var C = ['a','b']; var m = C.pop(); m='b';  重点
+	
+	④ 队列方法 （FIFO）===> (First In First Out)
+		push()
+		
+		shift()  删除数组的第一个元素
+				 返回值是删除项
+		unshift()  向数组前面添加项
+				 返回的是数组长度
+	⑦数组排序
+		reverse()  数组反向排序 
+				 返回的是排序过后的数组
+		sort()  按照顺序进行排序
+				返回的是 排序过后的数组
+			使用方法
+				var A = [1，3，2];
+				var B = A.sort(function(a,b){
+						return a-b //返回的是升序排列 // B = [1,2,3];
+						return b-a //返回的是升序排列 // B = [3,2,1];
+					})  
+	⑧数组链接
+		concat() 将拼接数组，不只是链接数组，可以连接字符串, 可以连接多个
+				 返回值是 链接过后的数组
+				var A = [1，3，2];
+				var newA = A.concat('aa',[99,88,77]); ==>newA = [1,3,2,'aa',99,88,77]
+		slice() //英文 切片  切割数组的 
+				返回一个新的数组，不会影响原数组
+			使用方法	
+				传入一个参数 会被认为是起始位置，截取从该位置开始 包含该位置
+				传入两个参数  会被认为是起始位置 终止位置  字符串开始截取的位置 从这项开始 这项 是在的
+			var A = [1，3，2];
+			var B = A.slice(1) // B = [1,2] 错的 ==> 正确的结果为 B = [3,2] 
+			
+		splice() //返回删除的数组项
+			使用方法
+				三个参数 
+				第一个参数树 开始的位置 是索引 // 
+				第二个参数是 要从该位置开始删除几项  是删除数组对应的项
+				第三个参数是要替换 或者 添加的项
+				返回删除的项/原数组会受到影响
+					var A = [1，3，2]; var m=A.splice(0,1); ==>  A = [3,2]  这是删除     m='1'
+					var A = [1，3，2]; var m=A.splice(0,1,"aaa"); ==>  A = ['aaa',3,2]  这是替换  m='1'
+					var A = [1，3，2]; var m=A.splice(0,0,"aaa"); ==>  A = ['aaa',1,3,2]  这是增加   m=''
+		查找对应的项的索引
+	
+	⑨查找位置
+		indexOf() 查找到对应的项 返回对应项的下标/查找不到的话 返回-1
+			使用方法
+				传入一个参数的  参数会被作为传入的项 进行查找 
+				传入两个参数的话  第一个参数是要查找的项  第二个参数是下标从什么地方开始
+		lastIndexOf() //从数组的末尾 向前查找 返回的是 数组 小标 正向数的不是 倒着数的
+	
+	⑩迭代方法
+		一 筛选
+			every() 返回的值 为Boolean
+				var A = [1,2,8,6,24,5]  
+				var k =	A.every(function(item,index,array //该参数可以省略){
+						return item > 2;  //此处校验的是所有的项// 如果有一项不符合则 直接返回 false
+					})
+					
+					k = false;
+			some()  返回的值 为Boolean
+				var A = [1,2,8,6,24,5]  
+				var k =	A.filter(function(item,index,array //该参数可以省略){
+						return item > 2;  //此处校验的是所有的项// 如果有一项不符合则 直接返回 false
+					})
+					k = true
+			filter() 返回的值 过滤后的数组
+				var A = [1,2,8,6,24,5]
+				var m =	A.filter(function(item,index,array //该参数可以省略){
+						return item > 2;  
+					})
+					m = [8,6,24,5]
+			map() 针对每一项进行特定的复制运算 并返回这个运算后的数组
+				var A = [1,2,3]
+				var m =	A.map(function(item,index,array //该参数可以省略){
+						return item*2;  
+					})
+					m = [2,4,6]
+			forEach() 类似于for 循环 没有返回值
+			
+	十一合并数组
+			reduce()
+				var A = [1,2,3]
+				var m =	A.reduce(function(prev,cur,index,array //该参数可以省略){
+						return prev+cur;  
+					}) ==> m = 6; //数组项想 数值类型 参数相加 求和 
+								  //数组项想 其他类型 拼接字符串 对象的话 会显示 object
+			reduceRight() //从后往前处理
+	
+基本包装类型
+	Number/String/Boolean
+
+	Boolean
+	
+		var s1="aaaaa"  var s2 = s1.substring(2); 
+			==> 实际内部执行过程
+				var s1 = new String('aaaaa');
+				var s2 = s1.substring(2);  
+					//只能获取原型链上的方法  s1.color = 'red' 访问 s1.color ==> undefinde; 
+						//因为当访问s1.color 的时候  上一步 设值得s1 已经销毁了 此时的s1 是一个新的s1
+				s1 = null; //销毁s1
+				
+	特殊的地方
+		
+	String
+		
+		查找对应位置的字符
+		
+		charAt() // 返回对应下标的对应的字符
+			参数表示 要查询的下标 
+			eg: var a = 'qwert'; var m = a.charAt(1); ==> m='w'  ==>可以通过  [] 来访问 m = a[1]  ==> m ='w'
+		
+		charCodeAt() // 返回对应下标的对应的字符编码
+			eg: var a = 'qwert'; var m = a.charAt(1); ==> m=119;
+		
+		fromCharCode()  参数为数字 
+						返回的值是一个字符
+		
+		查找字符对应的位置
+		
+		都可以接受两个参数 第一个参数是要查找的项 第二个是从什么位置开始
+		
+		indexOf 
+		lastIndexOf() 
+		
+		concat() //合并多个字符串 ,参数都好隔开 如果穿入的为数组 则调用 数组的 toString() 采用字符串连接方式 进行拼接
+				 //不影响 原数组
+			eg: var a = 'qqqqq' var m = a.concat('a',['sss','ddd','fff'],444) ==> m=qqqqqasss,ddd,fff444
+		
+		//截取字符串
+		
+		slice()  //切割字符串 和 数组是一样的
+			一个参数的时候表示从哪一项开始 
+			两个参数的时候 第一项表示从哪一项开始  第二项表示到哪一项之前结束 
+		subString()  //和slice 是一样的
+		subStr()  //不同的是 第二个参数 是有要得到几个字符 
+		
+		当传递 负数的时候
+			slice  会将所有的负参数相加字符串的总长度
+			subStr 会将第一个参数加上字符串的总长度，第二个参数 如果也为负数 会被直接置为零
+			substring  会将所有的负参数 转换为 0
+		
+		trim()  删除所有的空格
+		trimLeft()  trimRight() 
+		
+		toLowerCase()
+		toUpperCase() 
+		
+		toLocaleLowerCase()
+		toLocaleUpperCase() 
+		
+		字符串的匹配方法
+		match() 参数是一个正则表达式
+		
+			返回一个数组 每一个匹配到的都在
+				var a = 'mat cat uat' ; var s = a.match(/at/g); s=['at','at','at']; //不带g的话 只要查找到就立即返回 一个项的数组
+		search() 参数是一个正则表达式
+		
+			返回零或者负一
+				var a = 'mat cat uat' ; var s = a.search(/at/); ===>s=1;
+				
+		replace()  第一个参数是正则表达式  第二个参数可以是一个字符串(表示要替换的项) 也可以是一个function()
+			var a = 'mat cat uat'; var mm = a.replace(/at/,'000'); mm = 'm000 cat uat';
+			var a = 'mat cat uat'; var mm = a.replace(/at/g,'000'); mm = 'm000 c000 u000';
+								   var mm = a.replace(/ma|ca/g,function(match,pos,originText){
+										//match  匹配到的项 
+										//pos  匹配到项首字母的出现位置
+										//originText 搜索的字符串 就是 a 本身
+										
+										console.log(match)  //===>'ma' / 'ca'
+										
+								   })
+		split() 可接受两个参数 
+					第一个参数是正则表达式 第二个参数是一个数字 表示 转换为数组的长度(可以省略)
+				
+					var a = 'mat cat uat'; var mm = a.split(' ',2); ===> mm = ['mat','cat']
+					
+		localeCompare() 比较两个字符串 返回-1表示它在前 返回0 表示相等 返回1表示在之后
+			var a='yellow'; 
+			var b=a.localeCompare('black') ==> b = 1;
+	Boolean
+		
+		var value = 12 ;
+		
+		var number = Number(value);  //基本类型
+		
+			alert(typeof number) //Number
+		
+		var number = new Number(value)  //引用类型
+			
+			alert(typeof number) //object
+			
+			==> var number = Boolean(false); //基本类型  var result = number && true; result = false;
+				
+			==> var number = new Boolean(false);  //引用类型 var result = number && true; result = true;
+					==> 分析 number = object Boolean(object // 不为空就是 true ) 所以得出上值
+	
+	Number
+		
+		① number.tostring() //里边可以限制 是几进制的  //2，8，10，16
+			eg: var num = 10; console.log(num.toString(2)) ==> 1010
+		② number.toFixed(2)
+			eg: var num = 10.167; var aa = num.toFixed(2) ==>  aa=10.17
+		③ number.toPrecision() //是根据需要自动显示的指数格式 参数表述数值的位数  //单词意思 精度
+			eg: var num = 10; var aa = num.toPrecision(1)  ==> aa = 1e+1;
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	instanceof 实例（用于检测数组）	
+		
+		
+		
+		
+		
+		
+		
+		
+		
