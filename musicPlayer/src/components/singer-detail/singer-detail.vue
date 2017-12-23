@@ -1,20 +1,67 @@
 <template>
 	<transition name="slide">
-		<div class="singer-detail">{{`I am ${singer.name}`}}</div>
+		<music-list :songs="songs" 
+               :bg-image="bgImage"
+               :title="title"></music-list>
 	</transition>
 </template>
 
 <script>
   import {mapGetters} from 'vuex'
+
+  import MusicList from 'components/music-list/music-list'
+
+  import {getSingerDetail} from 'api/singer'
+  import {createSong} from 'common/js/song'
+  import {ERR_OK} from 'api/config'
+
   export default {
   	computed: {
+      title() {
+        return this.singer.name
+      },
+      bgImage() {
+        return this.singer.avatar
+      },
   	  ...mapGetters([
         'singer'
   	  ])
   	},
+    data() {
+      return {
+        songs: []
+      }
+    },
   	created() {
-  		console.log(this.singer)
-  	}
+  		this._getSingerDetail()
+  	},
+  	methods:{
+  		_getSingerDetail() {
+  			if(!this.singer.id){
+  				this.$router.push('/singer');
+  				return;
+  			}
+  			getSingerDetail(this.singer.id).then((res) => {
+          if(res.code === ERR_OK) {
+            this.songs = this._normalizeSongs(res.data.list)
+            console.log(this.songs)
+          }
+  			})
+  		},
+      _normalizeSongs(list) {
+        let ret = []
+        list.forEach((item) => {
+          let {musicData} = item
+          if(musicData.songid && musicData.albumid){
+            ret.push(createSong(musicData))
+          }
+        })
+        return ret
+      }
+  	},
+    components: {
+      MusicList
+    }
   }
 </script>
 
