@@ -183,6 +183,8 @@ Array
 		subString()  //和slice 是一样的
 		subStr()  //不同的是 第二个参数 是有要得到几个字符 
 		
+		如果 只有一个参数  那么意思就是从该位置开始截取到最后
+		
 		当传递 负数的时候
 			slice  会将所有的负参数相加字符串的总长度
 			subStr 会将第一个参数加上字符串的总长度，第二个参数 如果也为负数 会被直接置为零
@@ -252,9 +254,58 @@ Array
 		③ number.toPrecision() //是根据需要自动显示的指数格式 参数表述数值的位数  //单词意思 精度
 			eg: var num = 10; var aa = num.toPrecision(1)  ==> aa = 1e+1;
 		
+transform  //释意  运动
+	translate(x,y)  2D 转换 沿着X和Y 轴平移  //释意 转化
+	3D  translate3D(x,y,z)
+	translateX() 沿着 X 轴平移
+	translateY() 沿着 Y 轴平移
+	translateZ() 沿着 Y 轴平移
+	
+	scale(x,y)  沿着X或Y 缩小 或 放大  //释义  比例
+	scale3D(x,y,z)
+	scaleX() 
+	scaleY()
+	scaleZ()
+	
+	rotate(angle) // 释义 旋转   旋转这个图片
+	rotate3D(x,y,z,angle)
+	单独设置只有3D 有
+	rotateX(angle)
+	rotateY(angle)
+	rotateZ(angle)
+	
+	skew(x-angle,y-angle) //释义 歪斜 以X 轴为基准进行歪斜
+	skewX()
+	skewY() 
+	
+	perspective() 定义三D 转换的透视试图
+	
+	
+	3D 独有
+	transform-origin  运动原点
+	
+	其余 有待研究
+	
+	http://www.runoob.com/css3/css3-3dtransforms.html
+	
+	
+	省略号
+
+	单行
+	overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+	
+	多行
+	overflow : hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	
+ 	
 		
-		
-		
+
 		
 		
 		
