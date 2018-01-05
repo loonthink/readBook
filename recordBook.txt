@@ -16,6 +16,31 @@ object
 		
 		④对于 含有特殊字符的key 最好使用 中括号包裹的方式来求值
 
+es6
+	转换为数组
+	
+	① 传参为多个
+	Array.of(1,2,3,6,5) 将参数转换为 数组 ==> [1,2,3,6,5]
+		注意 str.split('') 参数 是要传递 以什么格式转为切割符转换为数组的
+	② 传参为一个整的字符串
+	Array.from() 
+		①将类数组 或 可遍历的对象 转换为真正的对象
+		②将字符串转换为数组  Array.from('hello') ==> [h,e,l,l,o] 
+		
+		eg: var str = 'a,s,d,f' var arr1 = str.split(',') ==> [a,s,d,f]  这里就需要传入逗号切割符
+		
+	Array.find(function(value) {
+		return value > 2
+	} )  ==>  查找到符合条件的值 直接返回对应的项 如果查找不到 则 返回undefined
+	
+	arr.findIndex(funciton(value){return value>2}) 此返回的是 符合条件的值的下标，如果 没有符合的 则返回-1
+	
+		比较 es5 indexOf  传参为想要得到的项，查找到对应项 返回对应项的下标 查找不到 返回 -1 
+				 lastIndexOf() 也是一样 只是从后往前
+	arr.fill()
+		作用 填充数组
+		只有一个 参数的时候 是全部替换数组的值
+		两个参数的
 Array
 	①创建的方式
 		var A = new Array(3)  //创建指明的是数量
@@ -303,7 +328,116 @@ transform  //释意  运动
 	-webkit-line-clamp: 2;
 	-webkit-box-orient: vertical;
 	
+	
+	此属性不设置  默认是 border-box
+	box-sizing：规定边框算不算高度的问题
+		content-box 设置的 height 不包含 border 即  元素总高度 = height + border
+						如：设置了 height:100px;再设置border：10px solid red; 那么 获取元素高度的时候就为 120
+		border-box  设置的 height 再设置border 是包含在height内部的  
+						如：设置了 height:100px;再设置border：10px solid red; 那么 获取元素高度的时候就为 100 
+	
+BOM => windows 双重角色  
+	   既是 javascript 访问浏览器窗口的一个接口
+	   又是 ECMAScript 规定的Global 对象
+	
+	var a=1;  window.a = 1; ===> delete window.a ===>抛错 
+			  原因: [[configurable]]  被设置为了 false
+			  
+	尝试访问 未声明的属性 会报错
+		var a = b ==> 抛错 a = undefinded
+		var a = window.b  ==> 不会报错 因为是 属性查询
+	
+	screenX/screenY(chrome)  screenLeft/screenTop(IE,chrome)
+		moveTo(x,y) x y  分别表示 窗口要移动到的新坐标
+		moveBy(x,y) x y  分别表示 窗口需要移动的 x和y 方向上 对应的距离
+	
+	innerWidth/innerHeight  
+	outerWidth/outerHeight
+	
+	document.documentElement.clinetWidth
+	document.documentElement.clinetHeight
+	
+	document.body.clinetWidth
+	document.body.clinetHeight
+	
+	compatMode  标准模式 （不理解）
+	
+	document.documentElement.clinetWidth
+	document.documentElement.clinetHeight
+	
+	document.body.clinetWidth
+	document.body.clinetHeight
+	
+	window.open()
+	
+	var timeoutID = window.setTimeout(function(){
+		//内容
+	},100)  //  timeoutID 为setTimeout（超时调用） 返回唯一的标志ID 
+	
+	要取消 超时调用 则 将 ID 传递给 clearTimeout(ID) 将对应的 clearTimeout 取消掉
+		
+		setInterval clearInterval() 同理可得
+	
+	提示框
+		alert('内容') 用户只能点击确定
+		
+		confirm('内容')  用户可以点击或取消 
+			点击 ok 返回 true
+			点击 cancle 返回 false
+			if(confirm('内容')) //相关处理
+		
+		prompt()  带有输入框的提示框 
+			用户提交内容 点击 会将 填写内容返回
+			否则 返回 ‘’ 或 null
+		
+		window.find('内容') 查找 整个页面的内容 是否含有‘相关内容’
+			有 则 返回 true
+			没有 返回 false
+	
+	window.location === document.location  引用的是一个对象
+	
+	location
+		location.href //返回整个url
+		location.serch  // 返回从 ？ 开始到最后的 不知道包含#号部分
+		location.protocol // 返回协议 eg: 'http:'
+		location.pathname   //返回文件目录部分
+		location.hash  // 返回 # 开始到最后的
+		location.port  //返回端口 
+		location.host  //返回服务器名字和端口号
+		location.hostname //返回不带端口号的服务器名字
+		
+		截取字符串的时候 记得 使用 decodeURIComponent(value) 解码
+	
+	location.assign() 参数为URL 
+		功能同等于 window.location = url  / location.href = url
+		
+	location.replace() 
+		改变页面 url 后 不会改变留下 浏览记录
+		
+	location.reload() 刷新 页面  //有可能从缓存中加载
+	location.reload(true) 刷新 页面  //从服务器重新加载
+	
+	识别客户端浏览器
+	
+	navigator.userAgent  浏览器的用户代理字符串
+	navigator.userLanguage  操作系统的默认语言
+	navigator.userProfile   借以访问用户个人信息的对象
+	navigator.vendor   浏览器的品牌
+	navigator.vendorSub   有关供应商的次要信息
  	
+ 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	
+	
 		
 
 		
