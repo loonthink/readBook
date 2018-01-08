@@ -335,7 +335,70 @@ transform  //释意  运动
 						如：设置了 height:100px;再设置border：10px solid red; 那么 获取元素高度的时候就为 120
 		border-box  设置的 height 再设置border 是包含在height内部的  
 						如：设置了 height:100px;再设置border：10px solid red; 那么 获取元素高度的时候就为 100 
+
+css3 选择器
 	
+	div,p 并列关系
+	div>p 归属关系  m:选择div 下所有的P
+	div+p 并列关系  m: 选择紧挨 div 的所有p 元素
+	
+	//属性过滤不用加引号
+	a[target] 相应属性的选择  m: 选择a元素 属性名为 'target' 的元素
+	a[target=aa] 相应属性和值的选择  m:选择属性名为 'taget' 其值为'aa' 的a元素
+	a[target~=aa] 相应属性和值的选择  m:选择属性名为 'taget' 其值中，包含'aa' 单词的a元素 要以 空格隔开
+	a[target|=aa] 相应属性和值的选择  m:选择属性名为 'taget' 其值中，包含'aa' 单词的a元素 要以 -隔开
+	
+	//记得加引号（类似于正则查找）
+	a[target^='aa'] 选取以aa 字符开头的 该属性 a 元素
+	a[target$='aa'] 选取以aa 字符结尾的 该属性 a 元素
+	a[target*='aa'] 选取包含aa 字符串的 该属性 a 元素
+	
+	//target 可设置为任何属性
+	
+	a:hover 
+	a:link  选择未被访问的链接
+	a:visited  选择所有已被访问的链接
+	a:active 点击链接的时候
+	
+	input:focus 选择获得焦点的 input 
+
+	:first-letter  p:first-letter 选择p元素内容的首个字母 进行样式设置
+	:first-line    p:first-line 选择p元素内容的首行字母 进行样式设置
+	
+	:first-child  选择父元素的首个(结构上的) 子元素 
+		p:first-child 任何父元素的首个p子元素 前边可以限制区域的 元素内部元素的首个元素是p元素才能被选取
+	:last-child
+	:only-child   选择父元素唯一子元素
+	:nth-child(n)  选择父元素的第n个元素
+	:nth-last-child(n)  倒着数的
+  	
+	:first-child-type  选择父元素的首个（类型上的）子元素  
+		选择父元素内部 该类型的首个元素
+	:only-of-type  选择父元素下 唯一类型的 子元素
+	:nth-of-type(n) 
+	:nth-last-of-type(n) 
+	
+	:root 选择文档的根元素 (:root) 就是这么用
+	p:empty 选择没有子元素的每个p元素 
+	
+	:target   选择当前活动的#news 元素
+		<p><a href="#news1">跳转至内容 1</a></p>
+		<p id="news1"><b>内容 1...</b></p>
+	
+	input:enabled  选择每个 启用的input 元素
+	input:disabled 选择每个禁用的input 元素
+	
+	::selection 选取被用户选取的元素部分
+	
+	
+	:before 在元素内容之前插入内容 <p>aaa</p>  p:before { content:'台词 ：' } ==>  台词：aaa
+	:after 在元素内容最后插入内容 <p>aaa</p>  p:before { content:'台词 ：' } ==>   aaa台词：
+
+	:lang('en')  选择有以 en 开头的lang 属性的 每个 p 元素
+	
+	p~ul 选取前面有p元素的 每个ul 元素
+	
+						
 BOM => windows 双重角色  
 	   既是 javascript 访问浏览器窗口的一个接口
 	   又是 ECMAScript 规定的Global 对象
@@ -424,7 +487,7 @@ BOM => windows 双重角色
 	navigator.userProfile   借以访问用户个人信息的对象
 	navigator.vendor   浏览器的品牌
 	navigator.vendorSub   有关供应商的次要信息
- 	
+ 	navigator.plugins  浏览器中安装的插件信息的数组
  		
 		
 		
