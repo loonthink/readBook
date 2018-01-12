@@ -16,6 +16,15 @@ object
 		
 		④对于 含有特殊字符的key 最好使用 中括号包裹的方式来求值
 
+原生
+	原生 改动class
+		el.className  获取到的 是字符串
+		el.classList  获取到的 是一个对象
+			el.classList.add('className')
+			el.classList.remove('className') 
+		
+		
+		
 es6
 	转换为数组
 	
@@ -313,8 +322,48 @@ transform  //释意  运动
 	
 	http://www.runoob.com/css3/css3-3dtransforms.html
 	
+transition
+	transiton-property    //运动的名称
+	transiton-duration	  //运动时间
+	transiton-timing-function  
+		linear   以相同速度开始至结束的运动
+		ease     以慢速开始 然后变快 然后慢速结束 
+		ease-in  以慢速开始的过度效果
+		ease-out 以慢速结束的过渡效果
+		ease-in-out 以慢速开始和结束的过度效果
+		cubic-bezier(n,n,n,n) 
+	transiton-delay 延迟
 	
-	省略号
+	缩写 transition: property duration timing-function delay;
+	
+animation
+	animation-name              keyframe名称
+	animation-duration          花费的时间
+	animation-timing-function   速度曲线
+		linear   以相同速度开始至结束的运动
+		ease     以慢速开始 然后变快 然后慢速结束 
+		ease-in  以慢速开始的过度效果
+		ease-out 以慢速结束的过渡效果
+		ease-in-out 以慢速开始和结束的过度效果
+		cubic-bezier(n,n,n,n)
+	animation-delay             延迟
+	animation-iteration-count   次数（infinite  无线次数）
+	animation-direction         规定是否轮流反向播放动画（normal | alternate）
+	缩写 animation: name duration timing-function delay iteration-count direction;
+	
+	两种动画的编写方式
+	@keyframe 运动名称 {
+		from { left: 0px }
+		to { left: 200px }
+	}
+	@keyframe 运动名称 {
+		0% { left: 0px }
+		10% { left: 200px }
+		20% { left: 200px }
+		100% { left: 200px }
+	}
+	
+省略号
 
 	单行
 	overflow: hidden;
