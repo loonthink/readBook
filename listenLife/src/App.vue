@@ -56,6 +56,5 @@
   #app
   	width: 100%
   	height: 100%
-  	background:red
   	transition: background-color 2s
 </style>
