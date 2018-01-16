@@ -474,6 +474,11 @@ BOM => windows 双重角色
 	
 	compatMode  标准模式 （不理解）
 	
+		混杂模式
+			document.body
+		标准模式	
+			document.documentElement
+			
 	document.documentElement.clinetWidth
 	document.documentElement.clinetHeight
 	
@@ -538,11 +543,253 @@ BOM => windows 双重角色
 	navigator.vendorSub   有关供应商的次要信息
  	navigator.plugins  浏览器中安装的插件信息的数组
  		
+	navigator.plugins[i].name   插件的名字
+	navigator.plugins[i].description    插件的描述
+	navigator.plugins[i].filename   插件的文件名
+	navigator.plugins[i].length   插件所处理的MIME类型数量
 		
+	screen.acailHeight	
+	screen.acailWidth	
+	screen.left	
+	screen.top	
+	screen.width	
+	screen.height	
+	
+	histoty.go(-1) 后退一页
+	histoty.go(1) 前进一页
+	histoty.go(2) 前进两页
+	histoty.go('www.baidu.com')  如果浏览记录里有这个记录，则直接跳到这个记录里
+								 如果没有记录， 那么这个方法什么也不做
+								 如果有多条该记录则以 最新的那条记录为准
+	histoty.back()
+	histoty.forward() 
+								 
+事件
+	每个事件包含三个阶段
+		事件捕获阶段  document-elelment(html)-element(body)-element(div）
+		处于目标阶段 
+		事件冒泡阶段  element(div）-element(body)-elelment(html)-document
+	
+	DOM0事件处理程序
+		var btn = document.getElementById('myBtn')
+			btn.onclick=function(){
+				alert(this.id)   
+			}   ==>  myBtn  
+				作用域是 元素的作用域内
+	
+	DOM2级事件处理程序
+		非IE 的情况下 event 两种情况都可以作为参数进行传递 event 对象
+		var btn = document.getElementById('myBtn')
+			
+			btn.addEventListener("click",function(){
+				alert('nnn')
+			},false) 此处的false 表示冒泡阶段调用事件处理程序
+					 此处的true  表示捕获阶段调用事件处理程序
+			btn.removeEventListener("click",function(){
+				alert('删除') 
+			},false)  这样处理 是无效的
+			
+			正确的处理方式是：
+			var handler = function(){...}
+			btn.addEventListener("click", handler, false)
+			btn.removeEventListener("click", handler, false)
 		
+			IE的处理 
+			DOM0 
+				event 是通过 window.event 来访问的
+			
+			btn = document.getElementById('myBtn')
+			btn.onclick=function(){
+				alert(this.id)   
+			}   ==>  myBtn  
+				 注意是onclick
+				（IE只有事件冒泡流程）
+				作用域是全局 ==> window
+			
+			DOM2 是通过传参形式进行event的传播的
+			btn.attachEvent("onclick",function(){ this === window })
+			btn.detachEvent("onclick",function(){ this === window }) //此处删除处理程序和上部是一致的
+			
+			window.event.cancleBubble = true  取消事件冒泡
+			window.event.srcElement ==> 相当于 target
+			window.event.returnValue = false  取消事件默认行为
+			type
+			
+	event
+		bubbles  表明事件是否冒泡
+		stopImmediatePropagation() dom3 待了解
+			取消事件的进一步冒泡或捕获 同时组织组织任何事件处理程序被调用
+		stopPropagation()  阻止事件冒泡或捕获 bubbles为true 则可取消
 		
+		cancelable  取消事件的默认行为
+		preventDefault()   cancelable 为true 则可调用该方法
 		
+		currentTarget  
+			事件处理程序内部 this  始终等于  currentTarget
+			就是那个元素上 注册注册注册 了事件处理程序
+		target  就是 时间的目标 也就是 时间处于目标阶段的元素
 		
+		detail  与事件相关的细节信息
+		type  事件的类型
+		trusted  为true 则表示时间是浏览器生成的 为false 表示事件开发人员通过 javascript 生成的（dom3）
+		
+		eventPhase  时间的相应阶段
+						1 代表捕获阶段  2 表示处于”目标阶段“  3 处于冒泡阶段
+									目标阶段属于冒泡阶段 但是 eventPhase 的值是 2
+									但出于 目标阶段时  event.eventTatget === event.target
+						
+	UI事件
+		load()
+			1. 页面加载完触发
+			2. 所有框架处理完触发
+			3. img 资源加载完触发
+			4. 当嵌入的内容 加载完毕时在<object>元素上触发
+		error()
+			针对上面每个的失败处理
+		unload()
+			当页面卸载后触发
+		abort()
+			1. 当用户停止下载过程时触发
+			2. 嵌入的内容没有加载完时触发
+		select()
+			当用户选择 input / textarea 中的一个或多个字符串时触发
+		resize()
+			当窗口或框架大小变化是在 window 或 框架上面触发
+		scroll()
+			当用户滚动带滚动条的元素的内容时触发 
+	
+	焦点事件
+		focus()
+		blur() 
+	
+	鼠标指针在视口的位置 即相对于整个浏览器窗口的
+		clientY clinetX
+	鼠标指针相对于页面的位置
+		pageX pageY
+		
+		//计算相对页面的滚动位置
+		if(event.pageX == undefined){
+			pageX = event.clientX + (document.body.scrollLeft || document.documentElement.scrollLeft)
+		}
+		
+	鼠标指针相对与 整个屏幕的
+		screenX screenY 
+	这是IE的
+	offsetX
+		光标相对目标元素边界的x坐标
+	offsetY
+		光标相对目标元素边界的y坐标
+		
+	moseout,mouseover
+		页面中只有一个div,鼠标指针在div上
+			当鼠标移出div时，div上执行的是mouseout  body 上执行的是 mouseover
+	mousedown,mouseup
+		只针对鼠标的点击事件
+			会返回一个button 属性 event.button
+				0 没有按下按钮
+				1 按下鼠标主按钮（左键）
+				2 按下鼠标次按钮（右键）
+				3 同时按下左右键
+				4 按下中间的鼠标按钮
+				5 左中
+				6 右中
+				7 同时按下三个鼠标按钮
+				
+	mousedown和mouseup 两个事件都完成才算一个点击
+		detail中包含里一个属性 表示点击的次数 如果 mousedown 和 mouseup 换了位置该属性会被置为0
+	
+	mouseWheel
+		滚轮事件 
+		btn.addEventListener("mouseWheel", function(event){
+			console.log(event.mouseWheel)
+		}, false)
+		
+	键盘事件
+		keydown  
+			键盘按下任意键触发（如果按住不放会重复触发该事件）
+		keypress 
+			键盘字母键按下触发（如果按住不放会重复触发该事件）
+		keyup
+			释放按键时触发
+		
+		event.keycode
+	
+	textInput,keypress
+		任何可以获得焦点的元素都可以触发keypress
+		只有可编辑区域才能触发除法 textInput
+		
+		textInput 用户按下实际输入的字符时触发
+		
+		keypress 按下那些能够影响文本的现实的键时触发 
+		
+		btn.addEventListener("textInput", function(event){
+			event.data 
+			0 不确定浏览器是怎么输入的
+			1 键盘输入的
+			2 文本粘贴过来的
+			3 拖放进来的
+			4 文本使用 IME 输入的
+			5 文本通过在表单中选择某一项输入的
+			6 手写输入
+			7 语音输入的
+			8 几种方法组合输入的
+			9 脚本输入的
+
+		}, false)
+		
+	contextmenu
+		修改右键菜单
+		
+		取消右键菜单 event.preventDefault() || event.returnValue = false 
+		div.addEventListener("contextmenu", funciton(){
+			div2.style.left = event.clientX + "px"
+			div2.style.top = event.clientY + "px"
+			div.style.visibility = "visible"
+		})
+	
+	window.orientation
+		判断屏幕方向
+			0 肖像模式 
+			90 向左旋转的的横向模式 （home键在右侧）
+			-90 向左旋转的的横向模式 （home键在左侧）
+			
+	touchstart
+	touchmove
+	touchend
+	touchcancel
+	
+	touches 当前跟踪触摸操作的 Touch 对象的数组
+	targetTouches: 特定于事件目标的Touch对象的数组
+	changeTouches: 自上次触摸以来发生了什么改变的Touch对象的数组
+	
+	每个touch对象包含
+		clientX
+		clientY
+		screenX
+		screenY
+		pageX
+		pageY
+		identifier 
+		
+	事件委托
+		原理是利用事件冒泡机制
+			可通过捕获 target.id 进行相应事件的控制
+	<div id=“a”>
+		<p id="b"></p>
+		<p id="c"></p>
+		<p id="d"></p>
+	</div>
+		
+		$("#a").click(function(e){
+			swith(e.target){
+				case: "b":
+					dosomething
+				case: "c":
+					dosomething
+				case: "d":
+					dosomething
+			}
+		})
 		
 		
 		
