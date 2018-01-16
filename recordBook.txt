@@ -1,3 +1,26 @@
+continue (跳过此次循环)
+
+break	（结束循环语句）
+
+return 
+
+do{
+	//先执行
+	i++
+}while(i<5)
+
+while(i<5){
+	//后执行
+	i++
+}
+
+switch(条件){
+	case key:
+		dosomething
+	default:
+		dosomething
+}
+
 object 
 	①创建对象的两种方式
 		var obj = new Object();
