@@ -36,6 +36,6 @@
 			i 
 				font-size: $font-size-large
 		.router-link-active
-			color: $color-light
-			border-bottom: 2px solid $color-light
+			color: $color-text-light
+			border-bottom: 2px solid $color-text-light
 </style>
