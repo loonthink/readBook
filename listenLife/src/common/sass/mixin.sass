@@ -1,14 +1,15 @@
-
 @mixin thinBorder($width, $marginTop: 0%, $marginLeft: 0%) 
-	&:before
+	&:after
 		content: ''
 		position: absolute
 		width: $width
 		height: 1px
-		border: 1px solid #000
-		transform-origin: 0 0
-		transform: scale(1, 0.1);
+		background-color: #000
+		-webkit-transform: scale(1,0.1);
+		transform: scale(1, 0.1)
 		margin-left: $marginLeft
 		box-sizing: border-box
 		margin-top: $marginTop
+		-webkit-transform-origin: center bottom; 
+		transform-origin: center bottom
     

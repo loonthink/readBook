@@ -1,23 +1,14 @@
 <template>
 	<div class="singer">
-		<ul class="singerList">	
-			<li v-for="item in singers">
-				<p class="singerTitle"
-				>{{item.title}}</p>
-				<div v-for="singerD in item.items"
-							class="singerD"
-				>
-					<p class="singerImg">
-						<img :src="singerD.avatar" alt="">
-					</p>
-					<p class="singerName">{{singerD.name}}</p>
-				</div>
-			</li>
-		</ul>
+		<list-view 
+			:data="singers"
+		></list-view>
 	</div>
 </template>
 
 <script>
+  import listView from 'base/listview/listview'
+
 	import {getSinger} from 'api/singer'
 
 	import Singer from 'common/js/singer'
@@ -38,7 +29,6 @@
 			_getSinger() {
 				getSinger().then((res) => {
 					this.singers = this._orderSingerlist(res.data.list)
-					console.log(this.singers)
 				})
 			},
 			_orderSingerlist(list) {
@@ -93,41 +83,17 @@
 
 				return hotArr.concat(AToZ)
 			}
+		},
+		components: {
+			listView
 		}
 	}
 </script>
 
-<style lang="sass">
-	@import "~common/sass/variable"
-	@import "~common/sass/mixin"
-
-	$lineHeightTitle: 20px
-	$lineHeightSinD: 60px
-
+<style lang="sass" scoped>
 	.singer
-		height: 100%
-		.singerTitle
-			height: $lineHeightTitle
-			line-height: $lineHeightTitle
-			text-align: left
-			margin-left: 5px
-			color: $color-text-light
-			font-size: $font-size-medium
-			@include thinBorder(96%, 5.5%)
-		.singerD
-			display: flex
-			height: $lineHeightSinD
-			align-items: center
-			@include thinBorder(90%, 9%, 5%)
-			&:nth-last-of-type(1)
-				&:before
-					transform: scale(0)
-			.singerImg
-				flex: 2
-				img
-					width: 40px
-					border-radius: 50%
-					margin-left: 30%
-			.singerName
-				flex: 6
+		position: fixed
+		top: 88px
+		bottom: 0
+		width: 100%
 </style>
