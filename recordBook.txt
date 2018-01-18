@@ -998,6 +998,21 @@ ajax
 		重写 xhr 响应的MIME类型
 		在xhr.send() 方法之前调用 xhr.overrideMimeType()
 		
+	跨域请求
+		1. 设置对应的响应头部信息
+		2. JSONP  json width padding
+			格式 回掉函数和数据
+				callback({"name":"nicholas"})
+			src属性指定一个跨域的url 都有能力不受限制地从其他域加载资源
+			格式：CORSurl?callback=handleresponse
+					CORS ==> Cross-Origin Resource Sharing (跨源资源共享)
+			function handleresponse(res){
+				==> res 就是跨域请求到的数据
+			}
+			
+			var script = document.createElement("script")
+			script.src = "CORSurl?callback=handleresponse"
+			document.body.insertBefore(script, document.body.firstChild)
 		
 		
 		
