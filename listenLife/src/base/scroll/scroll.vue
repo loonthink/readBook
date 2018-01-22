@@ -1,5 +1,5 @@
 <template>
-	<div class="scroll" ref="wrapper">
+	<div ref="wrapper">
 		<slot></slot>
 	</div>
 </template>
@@ -9,10 +9,22 @@
 
 	export default {
 		props: {
+			probeType: {
+        type:Number,
+        default: 1
+      },
 			data: {
 				type: Array,
 				default: null
 			},
+      click: {
+      	type:Boolean,
+      	default: true
+      },
+      listenScroll: {
+      	type: Boolean,
+      	default: false
+      },
 			refreshDelay: {
 				type: Number,
 				default: 20
@@ -21,21 +33,41 @@
 		mounted() {
 			setTimeout(() => {
 				this._initScroll()
-			})
+			}, 20)
 		},
 		methods: {
 			_initScroll() {
 				if (!this.$refs.wrapper) {
 					return
 				}
+
 				this.scroll = new BScroll(
 					this.$refs.wrapper, {
-
+						probeType: this.probeType
 					}
 				)
+
+				if (this.listenScroll) {
+					let me = this
+					this.scroll.on('scroll', (pos) => {
+						me.$emit('scroll', pos)
+					})
+				}
 			},
+    	disable() {
+    	  this.scroll && this.scroll.disable()
+    	},
+    	enable() {
+    	  this.scroll && this.scroll.enable()
+    	},
 			refresh() {
 				this.scroll && this.scroll.refresh()
+			},
+			scrollTo() {
+				this.scroll && this.scroll.scrollTo.apply(this.scroll, arguments)
+			},
+			scrollToElement() {
+				this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments)
 			}
 		},
 		watch: {
