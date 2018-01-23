@@ -68,7 +68,6 @@
   	},
   	methods: {
   		selectItem(item) {
-  			console.log(item)
   			this.$emit('select', item)
   		},
   		_caculateHeight() {
