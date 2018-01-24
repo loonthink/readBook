@@ -704,8 +704,15 @@ BOM => windows 双重角色
 	
 	鼠标指针在视口的位置 即相对于整个浏览器窗口的
 		clientY clinetX
+		相对于页面视口（body）的横向距离，即: 该点击点儿到视口（body）左上角的横向距离
+		（整个页面整个页面整个页面(内部的滚动条无效)如果有滚动条滚动的时候（向上））该值会跟随滚动缩小
+		如果这个页面没有滚动条，clientX===pageX
 	鼠标指针相对于页面的位置
 		pageX pageY
+		
+		相对于页面视口（body）的横向距离，即: 该点击点儿到视口（body）左上角的横向距离
+		（整个页面整个页面整个页面(内部的滚动条无效)如果有滚动条滚动的时候（向上））该值会跟随滚动增加
+		如果这个页面没有滚动条，clientX===pageX
 		
 		//计算相对页面的滚动位置
 		if(event.pageX == undefined){
@@ -714,11 +721,28 @@ BOM => windows 双重角色
 		
 	鼠标指针相对与 整个屏幕的
 		screenX screenY 
+		针对屏幕左上角的横向距离
 	这是IE的
 	offsetX
 		光标相对目标元素边界的x坐标
+		始终针对事件元素内部，之时针对内容区域，不包含padding,margin,border
 	offsetY
 		光标相对目标元素边界的y坐标
+	
+	div.offsetLeft
+		针对的是整个div之外到父元素的横向距离距离（border以外的）
+	div.offsetTop
+		针对的是整个div之外到父元素的横向纵向距离（border以外的）
+	
+	div.clientLeft
+		左边框的大小
+	div.clientTop
+		上边框的大小
+	
+	div.scrollTop
+		元素纵向滚动的高度
+	div.clientLeft
+		元素横向滚动的距离
 		
 	moseout,mouseover
 		页面中只有一个div,鼠标指针在div上
@@ -803,11 +827,11 @@ BOM => windows 双重角色
 	changeTouches: 自上次触摸以来发生了什么改变的Touch对象的数组
 	
 	每个touch对象包含
-		clientX
+		clientX  
 		clientY
-		screenX
+		screenX   
 		screenY
-		pageX
+		pageX	 
 		pageY
 		identifier 
 		
