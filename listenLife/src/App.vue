@@ -5,6 +5,7 @@
    	<keep-alive>
    		<router-view/>
    	</keep-alive>
+   	<plyer></plyer>
   </div>
 </template>
 
@@ -13,6 +14,8 @@
 
 	import MHeader from 'components/m-header/m-header'
 	import Tap from 'components/tap/tap'
+	import Plyer from 'components/player/player'
+
 	export default {
 		computed: {
 			...mapGetters([
@@ -28,7 +31,8 @@
 		},
 	  components: {
 	  	MHeader,
-	  	Tap
+	  	Tap,
+	  	Plyer
 	  }
 	}
 </script>

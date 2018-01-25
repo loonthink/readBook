@@ -32,7 +32,11 @@
 			interval: {
 				type: Number,
 				default: 4000
-			}
+			},
+      click: {
+        type: Boolean,
+        default: true
+      }
 		},
 		data() {
 			return {
@@ -85,7 +89,8 @@
 						snap: true,
 						snapLoop: this.loop,
 						snapThreshold: 0.3,
-						snapSpeed: 400
+						snapSpeed: 400,
+						click: this.click
 					}
 				)
 				this.levelScroll.on('scrollEnd', () => {
@@ -116,6 +121,7 @@
 				}, this.interval)
 			},
 			goPicurl(index) {
+				alert(888)
 				clearTimeout(this.timer)
 				let pageIndex = index + 1
 				this.currentPageIndex = index

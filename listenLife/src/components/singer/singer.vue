@@ -32,7 +32,6 @@
 		},
 		methods:{
 			selectSinger(singer) {
-				alert('好安勿燥')
 				this.$router.push({
 					path: `/singer/${singer.id}`
 				})

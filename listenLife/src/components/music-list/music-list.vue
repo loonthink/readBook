@@ -23,7 +23,10 @@
 			:probe-type="probeType"
 			ref="scroll"
 		>
-			<song-list :songs="songs"></song-list>
+			<song-list 
+				:songs="songs"
+				@select="selectSong"
+			></song-list>
 		</scroll>
 	</div>
 </template>
@@ -31,6 +34,8 @@
 <script>
   import SongList from 'base/song-list/song-list'
   import Scroll from 'base/scroll/scroll' 
+
+  import {mapActions} from 'vuex'
 
   const RESERVED_HEIGHT = 40
 
@@ -69,7 +74,17 @@
 			},
 			scroll(pos) {
 				this.scrollY = pos.y
-			}
+			},
+			selectSong(song,index) {
+				console.log( this.songs , index )
+				this.selectPlay({
+					list: this.songs,
+					index
+				})
+			},
+			...mapActions([
+				'selectPlay',
+			])
 		},
 		watch: {
 			scrollY(newY) {
@@ -139,13 +154,14 @@
 			background: $color-background
 			i
 				color: $color-text
-				font-size: $font-size
+				font-size: $font-size-medium
 			.title
 				@extend .back 
 				@extend i
 				width: 90%
 				float: right
-				display: inline-block		    
+				display: inline-block
+				font-size: $font-size-small-s		    
 		.bg-image
 			position: relative
 			width: 100%
