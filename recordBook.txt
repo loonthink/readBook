@@ -32,6 +32,78 @@ switch(条件){
 		dosomething
 }
 
+DATE
+	getTime() 返回表示日期的毫秒数 与valueof() 方法返回的值相同
+	getFullYear() 取得四位数的年份
+	getMonth() 返回日期中的月份 0 表示一月 11 表示12
+	getDate() 返回日期中的天数
+	getDay() 返回日期中的星期数 0是星期日 6是星期六
+
+
+JSON
+	1.JSON的语法可以表示下面三种类型的值
+		1.简单值  可以在JSON中表示字符串、数值、布尔值 和 null  但是json 不支持javascript 中的 undefined
+			数值 5
+			字符串 "hello world" 必须用双引号括起来
+		2.对象 键值对儿  
+			//javascript的对象字面量
+			var object = {
+				name: "jack",
+				age: 29
+			}
+			JSON 中的key 必须用双引号括起来
+			{
+				"name": "jack"
+				"age": 29
+			}
+		3.数组
+		
+	2.方法
+		JSON.stringify(对象传入) 将javascript对象序列化为JSON字符串
+			除传入对象外，还可接受两个参数
+				第一个是 过滤器
+					可以是一个是数组，可以是一个函数
+						数组的话 
+						var obj = {
+							"name":"jhon"
+							"age":29
+						}
+						var str = JSON.stringify(obj, [name]) ==> str ==> {"name":"jhon"}
+						函数的话
+						var str = JSON.stringify(obj, funciton(key, value){
+							switch(key){
+								case "name":
+									return "哇哈哈"
+								case "age":
+									return undefinded //表示删除该属性
+								default: //注意这一步是必须的
+									return value
+							}
+						}) ==> str = {"name":"哇哈哈"}
+						
+				第二个是 生成的字符串的是否保持缩进的格数
+					为数字的时候
+					var str = JSON.stringify(obj, null, 4)
+						str = {
+							"name":"jhon"
+							"age":29
+						} //注意此时是保持缩进的字符串
+					为字符串的时候
+					var str = JSON.stringify(obj, null, '--')
+						str = {
+						--"name":"jhon"
+						--"age":29
+						} //注意此时是保持缩进的字符串
+				var obj = {"name":"bbb","aaa":"vvv",toJSON:function(){ return this.name }}
+				var str = JSON.stringify(obj) ==> str = "bbb" 
+					对象序列化的规则
+					//（1）如果有toJSON,则读取toJSON方法里的值
+					//（2）如果有过滤器（数组或函数的过滤器）则应用该过滤器 传入函数过滤器的值是按（1）步返回的值
+					// 对第二步返回的每个值进行相应的序列化
+					// 如果提供了第三个参数，执行相应的格式化
+					
+		JSON.parse(对象传入)	将JSON字符串解析为原生的javascript值
+			除传入对象外，还可接受一个函数过滤器 功能等同于JSON.stringify
 object 
 	①创建对象的两种方式
 		var obj = new Object();
@@ -392,11 +464,11 @@ animation
 	缩写 animation: name duration timing-function delay iteration-count direction;
 	
 	两种动画的编写方式
-	@keyframe 运动名称 {
+	@keyframes 运动名称 {
 		from { left: 0px }
 		to { left: 200px }
 	}
-	@keyframe 运动名称 {
+	@keyframes 运动名称 {
 		0% { left: 0px }
 		10% { left: 200px }
 		20% { left: 200px }
@@ -508,6 +580,7 @@ BOM => windows 双重角色
 		moveTo(x,y) x y  分别表示 窗口要移动到的新坐标
 		moveBy(x,y) x y  分别表示 窗口需要移动的 x和y 方向上 对应的距离
 	
+	//只适用于window
 	innerWidth/innerHeight  
 	outerWidth/outerHeight
 	
@@ -731,14 +804,21 @@ BOM => windows 双重角色
 	offsetX
 		光标相对目标元素边界的x坐标
 		始终针对事件元素内部，之时针对内容区域，不包含padding,margin,border
+		
 	offsetY
 		光标相对目标元素边界的y坐标
-	
+	clientWidth/Height   内容区的宽/高  包含padding,不包含margin,border 
+						 如果内容自己的内容区有滚动条，那么 实际宽高就等于 content-滚动条的宽度（只是滚动条的宽度）
+						 内部有滚动区域的内容则不包含滚动区域的高度
+	offsetWidth/Height	 内容区的宽/高  包含padding,border, 不包含margin,
+						 内部有滚动区域的内容则不包含滚动区域的高度
+	scrollWidth/Height   内容区的宽/高  包含padding,border,滚动区域的部分 不包含margin
+						 内部有滚动区域的内容则包含滚动区域的高度
 	div.offsetLeft
-		针对的是整个div之外到父元素的横向距离距离（border以外的）
+		针对的是整个div之外到父元素的横向距离（元素外边框到父元素内边框为止）
 	div.offsetTop
-		针对的是整个div之外到父元素的横向纵向距离（border以外的）
-	
+		针对的是整个div之外到父元素的纵向距离（元素外边框到父元素内边框为止）
+		
 	div.clientLeft
 		左边框的大小
 	div.clientTop
