@@ -16,3 +16,11 @@
 	overflow: hidden
 	text-overflow: ellipsis
 	white-space: nowrap
+@mixin loading-circle($color, $sec)
+	width: 20px
+	height: 20px
+	background: $color
+	border-radius: 50px
+	animation: zoom 0.8s linear $sec infinite alternate
+@mixin animate($name, $sec)
+	animation: $name 1s ease-in-out $sec infinite

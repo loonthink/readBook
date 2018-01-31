@@ -4,13 +4,14 @@
 			:data="singers"
 			@select="selectSinger"
 		></list-view>
-
+		<loading name="ripple" v-show="!singers.length>0"></loading>
 		<router-view></router-view>
 	</div>
 </template>
 
 <script>
   import listView from 'base/listview/listview'
+  import Loading from 'base/loading/loading'
 
 	import {getSinger} from 'api/singer'
 
@@ -23,7 +24,9 @@
 
 	export default {
 		created() {
-			this._getSinger()
+			setTimeout(() => {
+				this._getSinger()
+			},20)
 		},
 		data() {
 			return {
@@ -97,7 +100,8 @@
 			})
 		},
 		components: {
-			listView
+			listView,
+			Loading
 		}
 	}
 </script>

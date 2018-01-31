@@ -36,6 +36,7 @@
 				</div>
 			</div>
 		</scroll>
+		<loading name="three" v-show="!discList.length"></loading>
 	</div>
 </template>
 
@@ -44,6 +45,7 @@
 	import { ERR_OK } from 'api/config'
 
 	import LevelSroll from 'base/levelScroll/levelScroll'
+	import Loading from 'base/loading/loading'
 	import scroll from 'base/scroll/scroll'
 
 	export default {
@@ -54,8 +56,11 @@
 			}
 		},
 		created() {
+			setTimeout(() => {
+				this._getDiscList()
+			}, 20)
 			this._getRecommend()
-			this._getDiscList()
+			
 		},
 		methods:{
 			_getRecommend() {
@@ -83,7 +88,8 @@
 		},
 		components:{
 			LevelSroll,
-			scroll
+			scroll,
+			Loading
 		}
 	}
 </script>

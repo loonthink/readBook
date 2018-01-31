@@ -1,11 +1,11 @@
 <template>
   <div id="app" ref="app">
-    <m-header></m-header>	
+    <m-header></m-header>
    	<tap></tap>
    	<keep-alive>
    		<router-view/>
    	</keep-alive>
-   	<plyer></plyer>
+   	<player></player>
   </div>
 </template>
 
@@ -14,7 +14,7 @@
 
 	import MHeader from 'components/m-header/m-header'
 	import Tap from 'components/tap/tap'
-	import Plyer from 'components/player/player'
+	import Player from 'components/player/player'
 
 	export default {
 		computed: {
@@ -32,7 +32,7 @@
 	  components: {
 	  	MHeader,
 	  	Tap,
-	  	Plyer
+	  	Player
 	  }
 	}
 </script>
