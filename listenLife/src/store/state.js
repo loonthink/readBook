@@ -3,7 +3,7 @@ const state = {
 	bgArray: ['blue', 'red', 'yellow', 'pink', 'black'],
 	singer: {},
 	playing: false,
-	fullScreen: [],
+	fullScreen: false,
 	playlist: [],
 	sequenceList: [],
 	mode: '',
