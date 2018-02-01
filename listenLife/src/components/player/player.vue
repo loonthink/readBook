@@ -23,7 +23,7 @@
         </div>
         <div class="middle">
           <div class="middle-l">
-            <div class="cd-wrapper">
+            <div class="cd-wrapper" ref="cdWrapper">
               <div class="cd">
                 <img :src="currentSong.image" alt="" class="image">
               </div>
@@ -76,6 +76,8 @@
 
   import {getCurrentSong} from 'api/song'
 
+  import animations from 'create-keyframe-animation'
+  
   export default {
   	data() {
   		return {
@@ -83,7 +85,29 @@
   		}
   	},
   	methods: {
-      enter() {
+      enter(el, done) {
+        let animation = {
+          0: {
+            transform: `translate3d(-100px,370px,0) scale(0)`
+          },
+          60: {
+            transform: `translate3d(0,0,0) scale(1.1)`
+          },
+          100: {
+            transform: `translate3d(0,0,0) scale(1)`
+          } 
+        }
+
+        animations.registerAnimation({
+            name: 'move',
+            animation,
+            presets: {
+              duration: 400,
+              easing: 'linear'
+            }
+          })
+
+          animations.runAnimation(this.$refs.cdWrapper, 'move', done)
       },
       showMini(flag) {
         this.setFullScreen(flag)
@@ -129,7 +153,6 @@
       .top, .bottom, 
         transition: all 0.4s ease-in-out
       .middle 
-        animation: noShow 0.4s linear
     .normal-enter, .normal-leave-to   
       opacity: 0
       .top
