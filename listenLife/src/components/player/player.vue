@@ -1,6 +1,6 @@
 <template>
 	<div class="player" v-show="playlist.length > 0">
-		<!-- <p v-html="currentSong" @click="getSong"></p> -->
+		<p v-html="currentSong" @click="getSong"></p>
     <transition name="normal" @enter="enter">
       <div class="normal-player" v-show="fullScreen">
         <div 
@@ -38,7 +38,9 @@
             <i class="icon-shangyishou"></i>
           </div>
           <div>
-            <i class="icon-bofang"></i>
+            <i :class="playIcon"
+              @click="togglePlying"
+            ></i>
           </div>
           <div>
             <i class="icon-xiayishou"></i>
@@ -47,6 +49,11 @@
             <i class="icon-shoucang"></i>
           </div>
         </div>
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" class="circle-load-rect-svg" width="90%" height="20px" style="margin-left:6%;position:fixed;bottom:100px;" viewbox="0 0 600 400">
+          <polyline points="0 10, 320 10" class="g-path"/>
+          <polyline points="0 10, 320 10" class="g-fill" ref="fill"/>
+          <circle cx="10" cy="10" r="10" stroke="" stroke-width="" fill="white" ref="cicle" />
+        </svg>
       </div>
     </transition>
     <transition name="mini" @enter="enter">  
@@ -68,6 +75,12 @@
         </div>
       </div>
     </transition>
+    <audio 
+      ref="audio"
+      :src="currentSongUrl" 
+      @play="ready"
+      @timeupdate="updateTime"
+    ></audio>
 	</div>
 </template> 
 
@@ -81,7 +94,9 @@
   export default {
   	data() {
   		return {
-  			currentSongUrl:''
+  			currentSongUrl:'',
+        display: '',
+        songReady: false
   		}
   	},
   	methods: {
@@ -124,15 +139,49 @@
         var vkey = encodeURIComponent(list.vkey)
 			  return `http://dl.stream.qqmusic.qq.com/${name}?vkey=${vkey}&guid=8369714236&uin=0&fromtag=66`
 	  	},
+      ready() {
+        this.songReady = true
+      },
+      updateTime(e) {
+        let percent = e.target.currentTime / this.currentSong.duration
+            if(!this.$refs.fill) return 
+            this.$refs.fill.style["stroke-dasharray"] = `${300*percent} 320`
+            
+            this.$refs.cicle.style["transform"] = `translate3d(${300*percent}px, 0, 0)`
+      },
+      togglePlying() {
+        this.setPlyingState(!this.playing)
+      },
       ...mapMutations({
-        "setFullScreen":"SET_FULL_SCREEN"
+        "setFullScreen":"SET_FULL_SCREEN",
+        "setPlyingState":"SET_PLAYING_STATE"
       })
   	},
+    watch: {
+      currentSong(newS, oldSong) {
+        this.getSong()
+        clearTimeout(this.timer)
+        this.timer = setTimeout(() => {
+          this.$refs.audio.play()
+        }, 1000)
+      },
+      playing(newPlay) {
+        if(!this.songReady) return
+        const audio = this.$refs.audio
+        this.$nextTick(() => {
+          newPlay ? audio.play() : audio.pause()
+        })
+      }
+    },
   	computed: {
+      playIcon() {
+        return this.playing ? 'icon-zanting' : 'icon-bofang'
+      },
   		...mapGetters([
   			'playlist',
   			'currentSong',
-        'fullScreen'
+        'fullScreen',
+        'playing'
   		])
   	}
   }
@@ -141,11 +190,11 @@
 <style scoped lang="sass">
   @import '~common/sass/variable' 
 
-  $height-song-name: 40px
-  $height-singer-name: 20px
-  $bottom-bottom: 20px
-  $height-bottom: 40px
-  $height-miniPlayer: 5px
+  $height-song-name: 40px;
+  $height-singer-name: 20px;
+  $bottom-bottom: 20px;
+  $height-bottom: 40px;
+  $height-miniPlayer: 5px;
 
   .player
     .normal-enter-active, .normal-leave-active
@@ -244,7 +293,7 @@
         div
           i
             font-size: 35px
-            &.icon-bofang
+            &.icon-bofang, &.icon-zanting
               font-size: 45px
     .mini-player
       width: 100%
@@ -272,6 +321,24 @@
       transition: all 0.4s
     .mini-enter, .mini-leave-to
       opacity: 0
+    svg
+      position: fixed
+      z-index: 500
+      .g-path
+        fill: none;
+        stroke-width: 5
+        stroke: #ccc
+        stroke-linejoin: round
+        stroke-linecap: round
+      .g-fill
+        fill: none
+        stroke-width: 5
+        stroke: #ff7700
+        stroke-linejoin: round
+        stoke-linecap: round
+        stroke-dasharray: 0, 1300
+        stroke-dashoffset: 0
+        /*animation: lineMove 2s ease-out infinite*/
   @keyframes noShow
     0%
       transform: translate3d(-100px,370px,0) scale(0)
@@ -282,4 +349,9 @@
       transform: translate3d(0,0,0) scale(1)
     100% 
       transform: translate3d(-120px,370px,0) scale(0)
+  @keyframes lineMove 
+    0%
+      stroke-dasharray: 0, 1300
+    100%
+      stoke-dasharray: 1900, 1300
 </style>
