@@ -154,8 +154,88 @@ es6
 				 lastIndexOf() 也是一样 只是从后往前
 	arr.fill()
 		作用 填充数组
-		只有一个 参数的时候 是全部替换数组的值
-		两个参数的
+		只有一个 
+			参数的时候 是全部替换数组的值
+		三个参数的时候
+			第一个参数表示要要替换成为的项数
+			第二个参数表示从什么位置开始 注意 0 表示位置的第一位
+			第三个参数表示到哪一个位置之前结束
+			[1,2,3,4].fill(7,1,2) ==> [1,7,7,4]
+	arr.entries()
+		for(let ['i','v'] of['a','b'].entries()){ console.log(i,v) } ==> 0,a 1,b
+	arr.keys()
+		for(let index of['a','b'].keys()){ console.log(index) } ==> 1  2
+	arr.values()
+		for(let index of['a','b'].values()){ console.log(index) } ==> a   b
+	
+	Number
+		注意此处的 isNaN（） ==>  is not a number 返回 true的时候 证明不是一个数值 返回false的时候证明是一个数值
+		old isNaN 之前是window 上的属性 isNaN() 会将 内部的参数进行转换 然后在判断 
+		new  Number.isNaN()  穿进去的参数不进行转换  只要传进去的参数是NaN则 返回 true
+									    传进去的参数为非数值一律返回 false
+		Number.isFinite() ==>  判断一个数是否无穷大 Infinity 
+					       注意前提是一个数，如果是字符串或其他部位数值的参数 就会直接返回 false
+		parseInt() 和 parseFloat() 还和以前以前一样 无论实在 widow 还是在 Number 上
+		Number.isInteger() 判断是否为一个整数  为整数返回 true
+			当然 浮点数以零补充的也为整数 Number.isInteger(3.00) ==> true
+		Number.EPSILON 定义的一个极小值
+		Number.MAX_SAFE_INTEGER 最大值
+		Number.MIN_SAFE_INTEGER 最小值
+		判断是否超出范围
+			Number.isSafeInteger('参数')  判断是否在范围之内
+		
+		Math.sign("参数")
+		判断一个数到底是一个整数还是一个小数
+			为整数的时候返回1
+			为负数的时候返回-1
+			为小数的时候返回0
+			非数值返回NaN
+		
+		Math.cbrt('参数')
+		求一个数的立方根
+	Object
+		Object.is(num1,num2) 比较两个数是否严格相等 即 ===
+		Object.assign(num1,num2) 
+			assign 英文意思是过户给/分配
+			将两个或多个对象拼接起来  如果出现重复的属性的属性的话 后边的属性会覆盖前面的属性
+
+	Symbol
+		独一无二的
+			用于解决命名冲突的
+		let a = Sympol('a')
+		let b = Sympol('a')
+		a===b  false
+	
+		let name = Symbol('可以传递参数')
+		Object.keys("传入的是 对象名称") 只能获取到对象的非 Symbol类型的属性  
+		Object.getOwnPropertySymbol("传入的是 对象名称") 只获取到 symbol 类型的属性
+		对象名.ownKeys() 什么类型的属性 都可以获取到
+		
+		Symbol.for('name')  以参数名为依据，去全局环境中寻找以该参数命名的symbol值，
+			有的话就返回，没有的话就以该参数名返回一个新的symol
+		
+			eg: let a = Sympol.for('name')  //注意 Sympol.for('参数名') 创建的sympol 是在全局作用域中的 供 sympol 参考。
+									 //Sympol('参数名') 创建的就不是这种效果了
+			    let b = Sympol.for('name')
+				
+				a===b true
+			
+			eg: let a = Sympol('name')
+			    let b = Sympol.for('name')
+				
+				a===b false
+		对于Sybol.for() 创建创建创建 的变量 想要获取名字的只能通过  Sympol.KeyFor() 来获取
+			let n = Sympol.for('bbb')
+			let m = Sympol.KeyFor(n) ==> bob
+			
+               let n = Sympol('bbb')
+			let m = Sympol.KeyFor(n) ==> undefined
+	Promise
+		new Promise((resolve,reject)=>{})
+		then,catch,all,race(只要一个符合条件就继续执行)
+			
+
+
 Array
 	①创建的方式
 		var A = new Array(3)  //创建指明的是数量
