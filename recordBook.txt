@@ -1,3 +1,10 @@
+display: table;
+Display: table-row;
+Display: table-cell;
+Vertical-align: middle;
+Text-align: center;
+Display: inline-block;
+
 transparent css 布局用到
 
 continue (跳过此次循环)
@@ -588,8 +595,8 @@ css3 选择器
 	//属性过滤不用加引号
 	a[target] 相应属性的选择  m: 选择a元素 属性名为 'target' 的元素
 	a[target=aa] 相应属性和值的选择  m:选择属性名为 'taget' 其值为'aa' 的a元素
-	a[target~=aa] 相应属性和值的选择  m:选择属性名为 'taget' 其值中，包含'aa' 单词的a元素 要以 空格隔开
-	a[target|=aa] 相应属性和值的选择  m:选择属性名为 'taget' 其值中，包含'aa' 单词的a元素 要以 -隔开
+	a[target~=aa] 相应属性和值的选择  m:选择属性名为 'taget' 其值中，包含'aa' 单词的a元素 要以 空格空格空格隔开
+	a[target|=aa] 相应属性和值的选择  m:选择属性名为 'taget' 其值中，就是'aa' 或 以'aa-'开头的元素 要以 -隔开
 	
 	//记得加引号（类似于正则查找）
 	a[target^='aa'] 选取以aa 字符开头的 该属性 a 元素
