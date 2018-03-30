@@ -41,6 +41,31 @@ switch(条件){
 		dosomething
 }
 
+对象
+	数据属性
+		configurable 可配置的 --> delete
+		enumerable   可列举的 --> for-in
+		writable     可写的  -->  读写
+		value        默认 undefined
+	访问器属性	
+		configurable
+		enumerable
+		get
+		set	
+
+	var person = {
+		name: "Nicholas"
+	}
+	//修改属性默认的特性必须使用
+	Object.defineProoerty(person， ‘name', {
+		writable: false,
+		value: "Nichlas"
+	})
+
+	Object.keys(对象名) ==> 返回的是一个数组
+
+	对象名.hasOwnProperty() ==>  检测一个属性是存在与实例中true 还是存在于原型中 false
+	in 是检测该属性是否在在对象中 不管是不是原型链上的  如果存在就返回 true 否则返回 false
 DATE
 	getTime() 返回表示日期的毫秒数 与valueof() 方法返回的值相同
 	getFullYear() 取得四位数的年份
@@ -216,7 +241,7 @@ es6
 		a===b  false
 	
 		let name = Symbol('可以传递参数')
-		Object.keys("传入的是 对象名称") 只能获取到对象的非 Symbol类型的属性  
+		Object.keys("传入的是 对象名称") 只能获取到对象的非 Symbol类型的属性   
 		Object.getOwnPropertySymbol("传入的是 对象名称") 只获取到 symbol 类型的属性
 		对象名.ownKeys() 什么类型的属性 都可以获取到
 		
