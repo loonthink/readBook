@@ -308,6 +308,11 @@ es6
 
 
 Array
+        影响原数组的方法总结：
+          push(),pop(),shift(),unshift(),reverse(),splice(),
+        原数组不受影响的方法总结
+          slice(),concat(),sort()
+
 	①创建的方式
 		var A = new Array(3)  //创建指明的是数量
 		var B = new Array('aaa')  //创建指明的是内容
