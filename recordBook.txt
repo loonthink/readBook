@@ -1,4 +1,13 @@
 Git
+git rm --cached filename
+   删除远程仓库中的 filename 文件， 保留本地该文件
+git rm --cached -r directory
+   删除远程仓库中的 directory 文件夹，保留本地该文件
+   如果不加 --cached 的话 把本地的一并删除
+git commit "xxxx"
+git push 
+git commit "xxxx"
+git push
 git diff  XX      查看XX文件修改了那些内容
 git log          查看历史记录
 
