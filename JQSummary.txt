@@ -1,0 +1,337 @@
+JQ 总结
+
+获取当前的版本号
+$().jquery；
+jQuery.fn.jquery
+
+JQuery 对象是一个类数组对象
+
+Dom 和 JQuery 之间的转换
+var $Jq = $('#cc')
+var dom = $Jq[0] || var dom = $Jq.get(0)
+
+
+next() 下一个元素
+siblings("div") 获取所有同辈div元素 不分位置关系
+$("#pre~div") == $("#pre").nextAll("div") 选择 id 为pre 后面的所有同辈 div
+
+end() 方法结束当前链条中的最近的筛选操作，并将 匹配匹配匹配 元素集还原为之前的状态
+
+$(":checkbox").attr("checked","checked"); 表单选择，:type 来选择表单元素
+tr:has(:checkbox:enabled) 选择含有未被禁用的checkbox的tr
+checkbox.is(":checked")   is==> 是否选中 是否含有  是否是 等语法时都可以用is
+
+基本过滤选择器：
+	:first :last 
+	:not(selector)  --> $("input:not(.myClass)") 选取class 不是myClass 的<input> 元素
+	:even() 偶数 :odd() 奇数  --> $("input:even") 获取索引为偶数的<input> 元素
+	:eq(index) 选取索引等于 index的元素
+	:gt(index) 选取索引大于 index的元素
+	:lt(index) 选取索引小于 index的元素
+	:header --> $(':header') 选取网页中所有的<h1> <h2> 等
+	:animated --> $('div:animated') 选取正在执行动画的<div> 元素
+	:focus --> $(':focus') 选取当前获取焦点的元素
+
+内容过滤选择器
+	:contains(text) --> $("div:contains('我')") 选取含有文本“我”的div元素
+	:empty --> $("div:empty") 选取不包含子元素（包括文本元素）的div空元素
+	:has(selector) $("div:has(p)") 选取含有 P 元素的div 元素
+	:parent $("div:parent") 选取拥有子元素（包含文本元素）的div元素
+
+可见性过滤选择器
+	:hidden $(":hidden") 选取所有不可见的元素 即 所有隐藏的元素 
+		注:此属性不只是 表单元素的特性 都可以使用
+	:visible $("div:visible") 选取所有可见的div元素
+
+:nth-child(index) index 从1开始的 
+:eq(index) index 从0开始的
+
+$dom.index() 获取dom对应的索引
+$dom.index($("#aaa"))  获取id为aaa的元素在dom中的相对位置
+	eg: ul
+			li.cls
+			li.cls
+			li.cls
+			li.cls#aaa
+			li.cls
+		ul
+	$("ul li").click(function(){
+		//假如我点击的是滴二个DIV，那么下面将输出对应的索引
+		$(this).index() ==> 1
+		//下面我将获取的是id为aaa的元素在.cls中的相对位置，即为 3
+		$(this).index($("#aaa"))  ==>3
+	})
+	
+$dom.index() 
+	不传递参数：就是获取当前选择器所在同辈元素中的位置
+	eg: $(this).index()
+	
+	传入一个对象: 会首先取到第一个匹配的.cls元素 ，然后在该第一个元素去匹配.aaa元素，索引一直为0，即验证存在不存在
+	$(".aaa").index($(".cls")); 
+	
+	传入一个字符串： 首先按照传入的匹配规则进行匹配所有的能匹配到的元素，然后从匹配到的元素中找到前面需要匹配的元素
+	$(".aaa").index(".cls");
+	
+	
+	
+//对象的思想在里边
+var hasSelected = $(this).hasClass('selected');
+$(this)[hasSelected ? removeClass : "addClass"]("selected");
+
+注意
+	$(".test :hidden")  -->选择的是test类元素里边里边里边的 隐藏的元素
+	$(".test:hidden")   -->选择的是隐藏的.test类元素
+
+filter  直接针对的该元素的
+$("div").filter("contains('xx')") 过滤出含有xx内容的div元素
+find: 针对的是 元素的子集
+
+filter()是对选中的元素集合操作，得到这些元素中符合条件的元素，而find()是得到选中元素中符合条件的后代子元素
+
+.attr  ==>获取相应的属性
+
+var $span = $("<sapn>9999</span>") --> 创建
+
+内部操作
+向元素内部追加追加追加（就是往后添加）内容
+$("div").append() --> 添加 
+把A追加到B中
+$("A").appendto("B")
+
+向元素内部前置前置前置（就是添加到头部位置）内容
+$(A).prepend(B)
+把A前置到B中
+$("A").prependTo("B")
+
+外部操作
+在元素之后插入内容
+after()
+将A插入到B后面
+$(A).insertAfter(B)
+
+before()
+insertBefore()
+
+删除操作
+
+remove() 从DOM 中删除所有匹配到的元素，元素上绑定的事件也一并被删除
+var $re = $("div").remove(); 返回值是一个指向已被删除的节点的引用，切记这里的元素上绑定的事件已经被消除了
+$re.appendTo('.footer') 利用返回的引用可以直接将元素添加新的父元素中，但是该元素上无之前绑定的事件
+
+detach() 
+同样都是删除，detach() 不会把匹配的元素从JQuery对象中删除，所以可以在将来使用这些匹配的元素
+与remove() 方法不同， 所有绑定的事件、附加的数据等都会保留下来
+
+empty()
+清空元素内的所有节点
+
+复制元素
+$(dom).clone() -->只是单纯的复制元素
+$(dom).clone(true)  -->连同元素上的事件一同复制
+
+替换元素
+	原来元素上的事件是不存在的
+$(A).replaceWith(B) B 替换 A
+$(A).replaceALL(B)  A替换 B
+
+包裹元素
+	==>用b标签包裹div标签,这个是单独包装
+$("div").wrap("<b></b>");  
+	<b><div></div></b> 
+	<b><div></div></b> 
+
+整体包裹 
+	如果元素位置不是紧挨状态就会以第一个匹配到的元素为基础位置进行合并，然后包裹
+	如果在一个位置，就直接在外部进行包裹
+$("div").wrapAll("<b><b>")
+	<b>
+		<div></div>
+		<div></div>
+	</b> 
+	
+$(div).wrapInner("<b></b>"); 用b标签div包裹内容 
+
+$("P").attr("title","your title"); 添加一个属性
+$("p").attr({"title":"your title","name":"test"}) 添加多个属性
+
+$("p").removeAttr("title"); 删除对应的属性
+
+方便书写，$dom = $("div");
+$dom.addClass("新的classz值") -->追加class 属性  添加多个属性的话 用空格隔开
+$dom.removeClass("hight")  一处多个属性的话 用空格隔开
+
+$dom.toggle(function(){  循环切换两个代码块 ① 和 ②
+		①
+	},function(){
+		②
+	})
+	
+$dom.toggleClass("Anther");  重复添加或删除Anther class名字
+
+$dom.hasClass("anther"); 判断元素中是否含有该class。
+	实际内部执行的是 $dom.is('.anther')  注意带点儿
+
+$dom.html() -->获取的是 该dom的内部节点内容 
+$dom.text() -->获取的是该元素内部的文本内容 即:innerText
+
+上述两个方法括号中传值即为 替换
+
+$dom.val() --> 获取或设置表单元素的值
+
+$dom.focus() 获取焦点
+$dom.blur()  失去焦点
+
+遍历节点
+children() 获取匹配到的子元素子元素子元素(就是二级元素)集合
+next() 取得匹配元素后面紧邻的同辈同辈同辈元素
+nextAll() 获取的是后面全部的
+prev()  . . . . . .前面
+prevALL() 获取的前面全部的
+siblings() 取得匹配前后所有的同辈元素
+
+closest() 取得最近的匹配元素，只找最亲的长辈，同辈及以下不考虑
+parent() 获取父级元素
+parents() 获取所有的爸爸
+
+$dom.css("color"); 获取颜色属性的值
+$dom.css("color","red"); 设置单个属性
+$dom.css({"font-size":"30px","background-color":"#ccc"}) 大括号添加多个属性
+注：
+	此处如果不加引号的话，对于单词组合的属性，需要使用驼峰表示
+	加引号的话，二者都可规则都可使用
+	$dom.css({fontSize":"30px",backgroundColor:"#ccc"})
+	
+$dom.css("height") ==> 获取到的高度，是设置的值，不是px数值，即如果设置为auto,获取到就为 auto
+$dom.height() -->则可以获取到元素的实际高度，是没有单位没有单位没有单位的
+
+$dom.height(100) 设置高度,不带单位的话，默认是 PX
+$dom.height(10rem)
+
+$dom.width() 
+
+获取元素在当前视窗的相对位移，返回的对象中包含 left 和 top
+var offset = $dom.offset() 
+offset.left
+offset.top
+
+获取元素相对于最近一个position样式属性设置为 relative 或者 absolute的祖先节点的相对偏移
+与offset() 一样，返回的对象属性中包含两个属性，即 top 和 left
+var offset = $dom.position() 
+position.left
+position.top
+
+$dom.scrollTop() 获取元素滚动条滚动条滚动条距顶端的距离
+$dom.scrollLeft() 获取元素滚动条滚动条滚动条距左侧的距离
+
+$dom.scrollTop(300)  设置其滚动到的位置
+$dom.scrollLeft(300) 设置其滚动到的位置
+
+JQ事件
+
+触发绑定时间，可以是自定义的事件，也可以是click这样的常规事件
+
+自定义事件通过Bind：
+	$dom.bind("MyClick",function(event,message1,message2){
+		...
+	})
+
+$dom.trigger("事件名称",["参数一","参数二"])
+
+不仅会触发事件，还会执行浏览器默认操作
+	==> 不仅会触发input的focus事件，也会使input元素本身得到焦点（这就是浏览器的默认操作）
+	$("input").trigger("focus");  
+如果只想触发绑定的focus事件
+	==> $("input").triggerHandler("focus");
+	
+bind不止可以绑定单个事件，也可以一次性绑定多个事件,用空格隔开
+$dom.bind("mouseover mouseout",function(){ 方法体 })
+
+删除事件  unbind()
+可以进行链式调用  $dom.unbind("click").unbind("mouseover")
+
+添加事件时可以添加命名空间
+eg:
+	添加事件
+		$dom.bind("click.my",function(){ ... })
+		$dom.bind("dbclick.my",function(){ ... })
+		$dom.bind("mouseover",function(){ ... })
+	删除事件
+		$dom.unbind(".my")  这样就会一次性将click,和dbclick事件删除
+
+$dom.bind("click.my",function(){ ... })
+$dom.bind("click",function(){ ... })	
+
+当点击dom时会触发这两个事件
+
+下面点击button将只触发没有命名空间的对应事件，注意 ！感叹号
+$button.trigger("click!"); 注意感叹号
+
+JQ动画
+==>参数可以有 slow fast normal 亦可以是一个数字，这个数字代表毫秒数
+
+$dom.show() 
+$dom.hide() 
+
+fadeIn()
+fadeOut()
+
+slideUp()
+slideDown()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
